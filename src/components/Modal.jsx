@@ -20,9 +20,9 @@ export default function Modal({ title, onClose, children }) {
                 {children}
 
                 {/* Footer */}
-                <div style={{ textAlign: 'right', marginTop: 16 }}>
-                    <button onClick={onClose}>Fermer</button>
-                </div>
+                {/*<div style={{ textAlign: 'right', marginTop: 16 }}>*/}
+                {/*    <button onClick={onClose}>Fermer</button>*/}
+                {/*</div>*/}
             </div>
         </div>
     )

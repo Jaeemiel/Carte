@@ -1,41 +1,50 @@
 import Modal from "../components/Modal.jsx"
 import { useMap } from "../context/useMap.js"
+import { RoundIcon } from "../components/UI.jsx"
 
 export default function MarkerList() {
     const { markers, deleteMarker, setModal } = useMap()
 
     return (
         <Modal title="Liste des marqueurs" onClose={() => setModal(null)}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
-                <thead>
-                <tr style={{ borderBottom: '2px solid #ddd' }}>
-                    <th style={{ padding: '8px 12px', textAlign: 'left' }}>ID</th>
-                    <th style={{ padding: '8px 12px', textAlign: 'left' }}>Titre</th>
-                    <th style={{ padding: '8px 12px', textAlign: 'left' }}>Lat, Long</th>
-                    <th style={{ padding: '8px 12px', textAlign: 'left' }}>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {markers.map(m => (
-                    <tr key={m.id} style={{ borderBottom: '1px solid #eee' }}>
-                        <td style={{ padding: '8px 12px' }}>{m.id}</td>
-                        <td style={{ padding: '8px 12px' }}>{m.title}</td>
-                        <td style={{ padding: '8px 12px' }}>{m.lat.toFixed(3)}, {m.lng.toFixed(3)}</td>
-                        <td style={{ padding: '8px 12px', display: 'flex', gap: 6 }}>
-                            <button onClick={() => setModal({ type: 'edit', marker: m })}>Modifier</button>
-                            <button onClick={() => deleteMarker(m.id)}>Supprimer</button>
-                        </td>
-                    </tr>
-                ))}
-                {markers.length === 0 && (
-                    <tr>
-                        <td colSpan={4} style={{ padding: 16, textAlign: 'center', color: '#999' }}>
-                            Aucun marqueur
-                        </td>
-                    </tr>
-                )}
-                </tbody>
-            </table>
+            {markers.length === 0 ? (
+                <div className="text-center py-4 text-muted">
+                    <i className="bi bi-geo-alt fs-1"></i>
+                    <p className="mt-2">Aucun marqueur ajouté</p>
+                </div>
+            ) : (
+                <div className="d-flex flex-column gap-2">
+                    {markers.map(m => (
+                        <div key={m.id} className="d-flex align-items-center justify-content-between p-3 rounded-3"
+                             style={{ background: '#f8f9fa', border: '1px solid #e9ecef' }}>
+
+                            <div className="d-flex align-items-center gap-3">
+                                <RoundIcon icon="bi-geo-alt-fill" size={40} />
+                                <div>
+                                    <div className="fw-semibold" style={{ fontSize: 14 }}>{m.title}</div>
+                                    {m.subtitle && <div className="text-muted" style={{ fontSize: 12 }}>{m.subtitle}</div>}
+                                    <div className="text-muted" style={{ fontSize: 11 }}>
+                                        <i className="bi bi-crosshair me-1"></i>
+                                        {m.lat.toFixed(4)}, {m.lng.toFixed(4)}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="d-flex gap-2">
+                                <button onClick={() => setModal({ type: 'edit', marker: m })}
+                                        className="btn btn-sm btn-outline-warning">
+                                    <i className="bi bi-pencil"></i>
+                                </button>
+                                <button onClick={() => deleteMarker(m.id)}
+                                        className="btn btn-sm btn-outline-danger">
+                                    <i className="bi bi-trash"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    ))}
+                </div>
+            )}
         </Modal>
     )
 }

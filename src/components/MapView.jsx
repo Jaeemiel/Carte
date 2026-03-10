@@ -3,10 +3,11 @@ import 'leaflet/dist/leaflet.css'
 import { useMap } from "../context/useMap.js"
 import MarkerList from "../markers/markerList.jsx"
 import MarkerForm from "../markers/MarkerForm.jsx"
+import {RoundIcon} from "./UI.jsx";
 
 
 export default function MapView() {
-    const {modal, markers} = useMap()
+    const {modal, markers, setModal, deleteMarker} = useMap()
 
     return (
         <>
@@ -18,7 +19,20 @@ export default function MapView() {
                 />
                 {markers.map(m => (
                     <Marker key={m.id} position={[m.lat, m.lng]}>
-                        <Popup>{m.title} <br/> {m.subtitle} </Popup>
+                        <Popup>
+                            <div className="fw-semibold mb-1">{m.title}</div>
+                            {m.subtitle && <div className="text-muted mb-2" style={{ fontSize: 12 }}>{m.subtitle}</div>}
+                            <div className="d-flex gap-2 justify-content-end">
+                                <button onClick={() => setModal({ type: 'edit', marker: m })}
+                                        className="btn btn-sm btn-outline-warning">
+                                    <i className="bi bi-pencil"></i>
+                                </button>
+                                <button onClick={() => deleteMarker(m.id)}
+                                        className="btn btn-sm btn-outline-danger">
+                                    <i className="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </Popup>
                     </Marker>
                 ))}
             </MapContainer>

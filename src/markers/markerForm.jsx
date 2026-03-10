@@ -1,6 +1,7 @@
 import { useState } from "react"
 import Modal from "../components/Modal.jsx"
 import { useMap } from "../context/useMap.js"
+import { RoundIcon, FormLabel } from "../components/UI.jsx"
 
 export default function MarkerForm() {
     const { modal, setModal, addMarker, editMarker } = useMap()
@@ -15,11 +16,8 @@ export default function MarkerForm() {
 
     const handleSubmit = () => {
         const parts = position.split(',')
-        console.log('parts:', parts)
         const lat = parseFloat(parts[0].trim())
         const lng = parseFloat(parts[1].trim())
-        console.log('lat:', lat, 'lng:', lng)
-        // const [lat, lng] = position.split(',').map(v => parseFloat(v.trim()))
         if (!title || isNaN(lat) || isNaN(lng)) return
 
         if (isEdit) {
@@ -31,19 +29,39 @@ export default function MarkerForm() {
     }
 
     return (
-        <Modal title={isEdit ? "MODIFIER UN MARQUEUR" : "AJOUTER UN MARQUEUR"} onClose={() => setModal(null)}>
-            <p>Titre du POI</p>
-            <input placeholder="Nom du marqueur" value={title} onChange={e => setTitle(e.target.value)}
-                   style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 6, boxSizing: 'border-box' }} />
-            <p>Sous-titre du POI</p>
-            <input placeholder="Nom du marqueur" value={subtitle} onChange={e => setSubtitle(e.target.value)}
-                   style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 6, boxSizing: 'border-box' }} />
-            <p>Position du POI</p>
-            <input placeholder="lat , long" value={position} onChange={e => setPosition(e.target.value)}
-                   style={{ width: '100%', padding: '8px 12px', border: '1px solid #ddd', borderRadius: 6, boxSizing: 'border-box' }} />
-            <button onClick={handleSubmit} style={{ marginTop: 16 }}>
-                {isEdit ? "Enregistrer" : "Ajouter le POI"}
+        <Modal title={isEdit ? "Modifier un marqueur" : "Ajouter un marqueur"} onClose={() => setModal(null)}>
+
+            <div className="d-flex justify-content-center mb-4">
+                <RoundIcon icon={isEdit ? 'bi-pencil' : 'bi-geo-alt-fill'} size={56} />
+            </div>
+
+            <div className="mb-3">
+                <FormLabel icon="bi-tag">Titre du POI</FormLabel>
+                <input type="text" className="form-control" placeholder="Nom du marqueur"
+                       value={title} onChange={e => setTitle(e.target.value)} />
+            </div>
+
+            <div className="mb-3">
+                <FormLabel icon="bi-card-text">
+                    Sous-titre <span className="text-muted fw-normal" style={{ fontSize: 12 }}>(optionnel)</span>
+                </FormLabel>
+                <input type="text" className="form-control" placeholder="Sous-titre"
+                       value={subtitle} onChange={e => setSubtitle(e.target.value)} />
+            </div>
+
+            <div className="mb-4">
+                <FormLabel icon="bi-crosshair">Position du POI</FormLabel>
+                <input type="text" className="form-control" placeholder="lat , long"
+                       value={position} onChange={e => setPosition(e.target.value)} />
+                <div className="form-text">Exemple : 43.8934, -0.5002</div>
+            </div>
+
+            <button onClick={handleSubmit}
+                    className={`btn w-100 text-white ${isEdit ? 'btn-warning' : 'btn-success'}`}>
+                <i className={`bi ${isEdit ? 'bi-check-lg' : 'bi-plus-lg'} me-2`}></i>
+                {isEdit ? "Enregistrer les modifications" : "Ajouter le marqueur"}
             </button>
+
         </Modal>
     )
 }

@@ -11,13 +11,13 @@ export function MapProvider({ children }) {
     ])
     const [modal, setModal] = useState(null)
 
-    const addMarker = (title, subtitle, lat, lng) => {
-        console.log('addMarker:', title, subtitle, lat, lng, typeof lat, typeof lng)
-        setMarkers([...markers, { id: nextId++, title, subtitle ,lat: parseFloat(lat), lng: parseFloat(lng) }])
+    const addMarker = (title, subtitle, address, lat, lng) => {
+        // console.log('addMarker:', title, subtitle, lat, lng, typeof lat, typeof lng)
+        setMarkers([...markers, { id: nextId++, title, subtitle, address ,lat: parseFloat(lat), lng: parseFloat(lng) }])
     }
 
-    const editMarker = (id, title, subtitle,lat, lng) => {
-        setMarkers(markers.map(m => m.id === id ? { ...m, title, subtitle,lat: parseFloat(lat), lng: parseFloat(lng) } : m))
+    const editMarker = (id, title, subtitle, address, lat, lng) => {
+        setMarkers(markers.map(m => m.id === id ? { ...m, title, subtitle, address ,lat: parseFloat(lat), lng: parseFloat(lng) } : m))
     }
 
     const deleteMarker = (id) => {

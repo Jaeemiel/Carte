@@ -2,9 +2,6 @@ import { useState } from "react"
 import {MapContext} from "./MapContext.js";
 import {getMarkers, saveMarkers} from "../utils/storage.js";
 
-
-// let nextId = 1
-// let nextId = getMarkers().reduce((max, m) => Math.max(max, m.id), 0) + 1
 let genNextId = () => getMarkers().reduce((max, m) => Math.max(max, m.id), 0) + 1
 
 export function MapProvider({ children }) {
@@ -12,7 +9,7 @@ export function MapProvider({ children }) {
     const [modal, setModal] = useState(null)
 
     const addMarker = (title, subtitle, address, lat, lng) => {
-        console.log('addMarker:', title, subtitle, lat, lng, typeof lat, typeof lng)
+        // console.log('addMarker:', title, subtitle, lat, lng, typeof lat, typeof lng)
         const updated = ([...markers, { id: genNextId(), title, subtitle, address ,lat: parseFloat(lat), lng: parseFloat(lng) }])
         setMarkers(updated)
         saveMarkers(updated)

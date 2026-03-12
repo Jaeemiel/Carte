@@ -1,6 +1,6 @@
 import Modal from "../components/Modal.jsx"
 import { useMap } from "../context/useMap.js"
-import { RoundIcon, FormLabel } from "../components/UI.jsx"
+import { RoundIcon, FormLabel } from "../components/UIComponents.jsx"
 import {useCallback, useRef, useState} from "react";
 
 export default function MarkerForm() {

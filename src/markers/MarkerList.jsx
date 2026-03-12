@@ -1,6 +1,6 @@
 import Modal from "../components/Modal.jsx"
 import { useMap } from "../context/useMap.js"
-import { RoundIcon } from "../components/UI.jsx"
+import { RoundIcon } from "../components/UIComponents.jsx"
 
 export default function MarkerList() {
     const { markers, deleteMarker, setModal } = useMap()

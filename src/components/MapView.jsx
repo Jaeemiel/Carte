@@ -1,10 +1,8 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useMap } from "../context/useMap.js"
-import MarkerList from "../markers/markerList.jsx"
+import MarkerList from "../markers/MarkerList.jsx"
 import MarkerForm from "../markers/MarkerForm.jsx"
-import {RoundIcon} from "./UI.jsx";
-
 
 export default function MapView() {
     const {modal, markers, setModal, deleteMarker} = useMap()

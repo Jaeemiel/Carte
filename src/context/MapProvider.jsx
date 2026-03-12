@@ -1,27 +1,33 @@
 import { useState } from "react"
 import {MapContext} from "./MapContext.js";
+import {getMarkers, saveMarkers} from "../utils/storage.js";
 
 
-let nextId = 1
+// let nextId = 1
+// let nextId = getMarkers().reduce((max, m) => Math.max(max, m.id), 0) + 1
+let genNextId = () => getMarkers().reduce((max, m) => Math.max(max, m.id), 0) + 1
 
 export function MapProvider({ children }) {
-    const [markers, setMarkers] = useState([
-        { id: nextId++, title: 'Centre AFPA', subtitle: 'CANDAU', lat: 43.8913239197773, lng: -0.5051401743713332 },
-        { id: nextId++, title: 'Centre AFPA', subtitle: 'BOSQUET', lat: 43.897170501736056, lng: -0.4921505257801499 },
-    ])
+    const [markers, setMarkers] = useState(getMarkers)
     const [modal, setModal] = useState(null)
 
     const addMarker = (title, subtitle, address, lat, lng) => {
-        // console.log('addMarker:', title, subtitle, lat, lng, typeof lat, typeof lng)
-        setMarkers([...markers, { id: nextId++, title, subtitle, address ,lat: parseFloat(lat), lng: parseFloat(lng) }])
+        console.log('addMarker:', title, subtitle, lat, lng, typeof lat, typeof lng)
+        const updated = ([...markers, { id: genNextId(), title, subtitle, address ,lat: parseFloat(lat), lng: parseFloat(lng) }])
+        setMarkers(updated)
+        saveMarkers(updated)
     }
 
     const editMarker = (id, title, subtitle, address, lat, lng) => {
-        setMarkers(markers.map(m => m.id === id ? { ...m, title, subtitle, address ,lat: parseFloat(lat), lng: parseFloat(lng) } : m))
+        const updated= (markers.map(m => m.id === id ? { ...m, title, subtitle, address ,lat: parseFloat(lat), lng: parseFloat(lng) } : m))
+        setMarkers(updated)
+        saveMarkers(updated)
     }
 
     const deleteMarker = (id) => {
-        setMarkers(markers.filter(m => m.id !== id))
+        const updated = (markers.filter(m => m.id !== id))
+        setMarkers(updated)
+        saveMarkers(updated)
     }
 
     return (
